@@ -83,6 +83,41 @@ public class ProductServiceImpl implements ProductService {
 		List<ProductResponseDto> productsResponseList = buildProductsResponseList(products);
 		return productsResponseList;
 	}
+	
+	@Override
+	public ProductResponseDto updateProductByRating(long id, double rating) {
+
+		Optional<Product> optionalProduct = productRepository.findById(id);
+		
+		if(optionalProduct.isPresent()) {
+			Product product = optionalProduct.get();
+			product.setRating(rating);
+			Product savedProductRating = productRepository.save(product);
+			
+			ProductResponseDto productResponseDto = new ProductResponseDto();
+			
+			BeanUtils.copyProperties(savedProductRating, productResponseDto);
+			
+			return productResponseDto;
+		}
+		
+		return new ProductResponseDto();
+	}
+	
+	@Override
+	public String deleteProduct(long id) {
+
+		Optional<Product> deleteProduct = productRepository.findById(id);
+		
+		if(deleteProduct.isPresent()) {
+			Product product = deleteProduct.get();	
+			productRepository.delete(product);
+			
+			return product.getProductName();
+		}
+		
+		return "There is No Product with id: " + id;
+	}
 
 	
 	private List<ProductResponseDto> buildProductsResponseList(List<Product> products) {
