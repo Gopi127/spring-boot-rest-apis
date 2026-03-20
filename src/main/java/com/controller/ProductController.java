@@ -56,6 +56,11 @@ public class ProductController {
 		return productService.updateProductByRating(id, rating);
 	}
 	
+	@PutMapping("/update/stock/{id}")
+	public ProductResponseDto updateProductStock(@PathVariable(name = "id") long id, @RequestParam(name = "stock") int stock) {
+		return productService.updateProductStock(id, stock);
+	}
+	
 	@DeleteMapping("/delete/{id}")
 	public String deleteProduct(@PathVariable( name = "id" ) long id) {
 		return productService.deleteProduct(id);

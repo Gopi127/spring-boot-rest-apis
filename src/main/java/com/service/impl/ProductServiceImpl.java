@@ -105,6 +105,24 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
+	public ProductResponseDto updateProductStock(long id, int stock) {
+
+		Optional<Product> productId = productRepository.findById(id);
+		
+		if(productId.isPresent()) {
+			Product product = productId.get();
+			product.setStock(product.getStock() + stock);
+			Product savedProductStock = productRepository.save(product);
+			ProductResponseDto productResponseDto = new ProductResponseDto();
+			BeanUtils.copyProperties(savedProductStock, productResponseDto);
+			
+			return productResponseDto;
+		}
+		
+		return new ProductResponseDto();
+	}
+	
+	@Override
 	public String deleteProduct(long id) {
 
 		Optional<Product> deleteProduct = productRepository.findById(id);
@@ -146,5 +164,6 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return products;
 	}
+
 
 }

@@ -21,4 +21,6 @@ public interface ProductService {
 
 	public String deleteProduct(long id);
 
+	public ProductResponseDto updateProductStock(long id, int stock);
+
 }
